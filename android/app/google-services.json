@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "209688556274",
+    "project_id": "pratnotes",
+    "storage_bucket": "pratnotes.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:209688556274:android:fb38da50b90bb205b6566b",
+        "android_client_info": {
+          "package_name": "com.yadayada.pratnotes"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDbb4pPVlwkOmzJagQg7ef6TnJatSYCuRo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
