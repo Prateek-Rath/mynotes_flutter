@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'dart:developer' as devtools show log;
 
 import 'package:pratnotes/constants/routers.dart';
+import 'package:pratnotes/utilities/showErrorDialogue.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -14,9 +15,7 @@ class RegisterView extends StatefulWidget {
 }
 
 class _RegisterViewState extends State<RegisterView> {
-
   late final TextEditingController _email, _password;
-
 
   @override
   void initState() {
@@ -31,10 +30,13 @@ class _RegisterViewState extends State<RegisterView> {
     _password.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Register'),),
+      appBar: AppBar(
+        title: const Text('Register'),
+      ),
       body: Column(
         children: [
           TextField(
@@ -53,42 +55,44 @@ class _RegisterViewState extends State<RegisterView> {
           TextButton(
             child: const Text('register'),
             onPressed: () async {
-              try{
+              try {
                 final email = _email.text;
                 final password = _password.text;
-                final userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
+                final userCredential = await FirebaseAuth.instance
+                    .createUserWithEmailAndPassword(
+                        email: email, password: password);
                 devtools.log(userCredential.toString());
-              }
-              on FirebaseAuthException catch(e){
-                if(e.code == 'weak-password'){
+              } on FirebaseAuthException catch (e) {
+                if (e.code == 'weak-password') {
                   devtools.log('weak password');
-                }
-                else if(e.code == 'email-already-in-use'){
+                  showErrorDialogue(context, 'Error: ${e.code}');
+                } else if (e.code == 'email-already-in-use') {
                   devtools.log('Email is already in use');
-                }
-                else if(e.code == 'invalid-email'){
+                  showErrorDialogue(context, 'Error: ${e.code}');
+                } else if (e.code == 'invalid-email') {
                   devtools.log('invalid email');
-                }
-                else{
+                  showErrorDialogue(context, 'Error: ${e.code}');
+                } else {
                   devtools.log('something else');
+                  showErrorDialogue(context, 'Error: ${e.code}');
                   devtools.log(e.code);
                 }
-              }
-              catch(e){
+              } catch (e) {
                 devtools.log('error');
+                showErrorDialogue(context, 'Error: ${e.toString()}');
                 devtools.log(e.runtimeType.toString());
               }
             },
           ),
           TextButton(
             onPressed: () async {
-              try{
-              Navigator.of(context).pushNamedAndRemoveUntil(loginRoute, (route) => false);
-            }
-            catch(e){
-              devtools.log(e.runtimeType.toString());
-            }
-            }, 
+              try {
+                Navigator.of(context)
+                    .pushNamedAndRemoveUntil(loginRoute, (route) => false);
+              } catch (e) {
+                devtools.log(e.runtimeType.toString());
+              }
+            },
             child: const Text('Already registered?, Login here!'),
           ),
         ],
