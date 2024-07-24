@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer' as devtools show log;
+
+import 'package:pratnotes/constants/routers.dart';
 // import 'package:pratnotes/firebase_options.dart';
 
 class LoginView extends StatefulWidget {
@@ -84,7 +86,7 @@ class _LoginViewState extends State<LoginView> {
             onPressed: () async {
               try{
                 devtools.log('hree');
-                Navigator.of(context).pushNamedAndRemoveUntil('/register/', (route) => false);
+                Navigator.of(context).pushNamedAndRemoveUntil(registerRoute, (route) => false);
               }
               catch(e){
                 devtools.log(e.runtimeType.toString());
