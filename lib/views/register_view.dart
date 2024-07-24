@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 // import 'package:pratnotes/firebase_options.dart';
+import 'dart:developer' as devtools show log;
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -54,26 +55,26 @@ class _RegisterViewState extends State<RegisterView> {
                 final email = _email.text;
                 final password = _password.text;
                 final userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
-                print(userCredential);
+                devtools.log(userCredential.toString());
               }
               on FirebaseAuthException catch(e){
                 if(e.code == 'weak-password'){
-                  print('weak password');
+                  devtools.log('weak password');
                 }
                 else if(e.code == 'email-already-in-use'){
-                  print('Email is already in use');
+                  devtools.log('Email is already in use');
                 }
                 else if(e.code == 'invalid-email'){
-                  print('invalid email');
+                  devtools.log('invalid email');
                 }
                 else{
-                  print('something else');
-                  print(e.code);
+                  devtools.log('something else');
+                  devtools.log(e.code);
                 }
               }
               catch(e){
-                print('error');
-                print(e.runtimeType);
+                devtools.log('error');
+                devtools.log(e.runtimeType.toString());
               }
             },
           ),
@@ -83,7 +84,7 @@ class _RegisterViewState extends State<RegisterView> {
               Navigator.of(context).pushNamedAndRemoveUntil('/login/', (route) => false);
             }
             catch(e){
-              print(e.runtimeType);
+              devtools.log(e.runtimeType.toString());
             }
             }, 
             child: const Text('Already registered?, Login here!'),

@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'dart:developer' as devtools show log;
 // import 'package:pratnotes/firebase_options.dart';
 
 class LoginView extends StatefulWidget {
@@ -55,26 +56,26 @@ class _LoginViewState extends State<LoginView> {
               try{
                 final email = _email.text;
                 final password = _password.text;
-                final userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
-                print(userCredential);
+                await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
+                Navigator.of(context).pushNamedAndRemoveUntil('/notes/', (_) => false,);
               }
               on FirebaseAuthException catch(e){
                 if(e.code == 'user-not-found'){
-                  print('user not found');
+                  devtools.log('user not found');
                 }
                 else if(e.code == 'invalid-credential'){
-                  print('invalid credentials');
+                  devtools.log('invalid credentials');
                 }
                 else if(e.code == 'wrong-password'){
-                  print('incorrect password');
+                  devtools.log('incorrect password');
                 }
                 else{
-                  print('something else');
-                  print(e.code);
+                  devtools.log('something else');
+                  devtools.log(e.code);
                 }
               }
               catch(e){
-                print(e.runtimeType);
+                devtools.log(e.runtimeType.toString());
               }
             },
           ),
@@ -82,11 +83,11 @@ class _LoginViewState extends State<LoginView> {
             child: const Text('Not registered? Register here!'),
             onPressed: () async {
               try{
-                print('hree');
+                devtools.log('hree');
                 Navigator.of(context).pushNamedAndRemoveUntil('/register/', (route) => false);
               }
               catch(e){
-                print(e.runtimeType);
+                devtools.log(e.runtimeType.toString());
               }
             },
           )
